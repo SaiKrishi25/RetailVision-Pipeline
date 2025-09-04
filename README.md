@@ -67,8 +67,17 @@ Upload a retail shelf image and inspect the enhanced JSON response with brand cl
 
 ## JSON I/O Formats
 
-### Request
-- `multipart/form-data` with a file field named **`image`**
+### Input Format
+The pipeline accepts input as a **multipart/form-data** file upload via the Flask API endpoint. The image file must be sent with the field name `image`:
+
+**HTTP Request:**
+```
+POST /api/infer
+Content-Type: multipart/form-data
+
+Field name: "image" (required)
+File type: Image file (jpg, png, etc.)
+```
 
 ### Response
 ```json
@@ -96,16 +105,6 @@ Upload a retail shelf image and inspect the enhanced JSON response with brand cl
 docker build -t infilect-ai-pipeline .
 docker run --rm -p 8000:8000 infilect-ai-pipeline
 ```
-
----
-
-## Design Notes (Microservice-friendly)
-- **Detector** and **Grouper** are isolated modules → can be broken out behind REST/gRPC later.
-- For scalability, run multiple Gunicorn workers behind **Nginx** or a managed LB.
-- Use **Redis/RabbitMQ** + **Celery** if you later need async batch processing.
-- Persist outputs to S3/GCS/Azure Blob; keep URLs in responses.
-
----
 
 ## Model Architecture
 
