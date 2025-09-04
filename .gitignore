@@ -108,8 +108,12 @@ dmypy.json
 *.doc
 *.docx
 
-app/static/outputs/
-app/static/uploads/
+app/static/outputs/*.jpg
+app/static/outputs/*.jpeg
+app/static/outputs/*.png
+app/static/uploads/*.jpg
+app/static/uploads/*.jpeg
+app/static/uploads/*.png
 outputs/
 uploads/
 temp/
