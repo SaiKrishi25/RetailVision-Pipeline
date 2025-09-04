@@ -154,7 +154,7 @@ set EMBEDDING_MODEL=resnet50
 ## Assignment Deliverables
 - Flask webserver 
 - Detection model + grouping 
-- **Brand classification with CLIP** 
+- Brand classification with CLIP
 - Microservice-like modular design 
 - JSON input/output defined 
 - Color-coded visualizations saved to file 
