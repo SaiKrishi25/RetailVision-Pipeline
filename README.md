@@ -12,7 +12,7 @@ This repository implements a production-ready AI pipeline for comprehensive reta
 
 ---
 
-## 📦 Project Structure
+## Project Structure
 ```
 app/
   detector/model.py         # DETR-ResNet-50 (SKU-110k trained)
@@ -36,9 +36,13 @@ DEPLOYMENT_DOCUMENTATION.md # Comprehensive deployment guide
 
 ---
 
-## 🧪 Quickstart (Local)
+## Quickstart (Local)
 
 ```bash
+# 0. Clone the repository
+git clone https://github.com/SaiKrishi25/RetailVision-Pipeline.git
+cd RetailVision-Pipeline
+
 # 1. Setup environment
 python -m venv .venv && source .venv/bin/activate  # or Windows: .venv\Scripts\activate
 pip install --upgrade pip
@@ -63,7 +67,7 @@ curl -X POST -F "image=@/path/to/shelf.jpg" http://localhost:8000/api/infer
 
 ---
 
-## 🧠 JSON I/O Formats
+## JSON I/O Formats
 
 ### Request
 - `multipart/form-data` with a file field named **`image`**
@@ -89,7 +93,7 @@ curl -X POST -F "image=@/path/to/shelf.jpg" http://localhost:8000/api/infer
 
 ---
 
-## 🚀 Docker (production-style)
+## Docker (production-style)
 ```bash
 docker build -t infilect-ai-pipeline .
 docker run --rm -p 8000:8000 infilect-ai-pipeline
@@ -97,7 +101,7 @@ docker run --rm -p 8000:8000 infilect-ai-pipeline
 
 ---
 
-## ⚙️ Design Notes (Microservice-friendly)
+## Design Notes (Microservice-friendly)
 - **Detector** and **Grouper** are isolated modules → can be broken out behind REST/gRPC later.
 - For scalability, run multiple Gunicorn workers behind **Nginx** or a managed LB.
 - Use **Redis/RabbitMQ** + **Celery** if you later need async batch processing.
@@ -105,7 +109,7 @@ docker run --rm -p 8000:8000 infilect-ai-pipeline
 
 ---
 
-## 🔄 Model Architecture
+## Model Architecture
 
 ### Detection Model: DETR-ResNet-50-SKU110k
 - **Architecture**: Detection Transformer (DETR) with ResNet-50 backbone
@@ -149,27 +153,20 @@ set EMBEDDING_MODEL=resnet50
 
 ---
 
-## 📝 Assignment Deliverables Mapping
-- Flask webserver ✅
-- Detection model + grouping ✅
-- **Brand classification with CLIP** ✅
-- Microservice-like modular design ✅
-- JSON input/output defined ✅
-- Color-coded visualizations saved to file ✅
-- Setup & run instructions ✅
+## Assignment Deliverables
+- Flask webserver 
+- Detection model + grouping 
+- **Brand classification with CLIP** 
+- Microservice-like modular design 
+- JSON input/output defined 
+- Color-coded visualizations saved to file 
+- Setup & run instructions 
 
 ---
 
-## 🔧 Enhanced Features Implemented
-- ✅ **CLIP-based brand classifier** for explicit brand identification
-- ✅ **Brand-aware intelligent grouping** (DBSCAN + visual similarity)
-- ✅ **11 major retail brands** supported with confidence scoring
-- ✅ **Enhanced JSON response** with brand information
-- ✅ **Professional deployment documentation** with performance metrics
-
-## 🚀 Next Enhancements (optional)
-- Persist results (DB) and serve a **gallery page**.
-- Add **batch endpoint** and **OpenAPI** docs (Swagger).
-- Expand brand database with **custom brand training**.
-- Add **OCR integration** for text-based product identification.
-- Implement **real-time video processing** for live shelf monitoring.
+## Enhanced Features Implemented
+- **CLIP-based brand classifier** for explicit brand identification
+- **Brand-aware intelligent grouping** (DBSCAN + visual similarity)
+- **11 major retail brands** supported with confidence scoring
+- **Enhanced JSON response** with brand information
+- **Professional deployment documentation** with performance metrics
