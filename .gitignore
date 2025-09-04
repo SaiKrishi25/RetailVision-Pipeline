@@ -114,8 +114,8 @@ app/static/outputs/*.png
 app/static/uploads/*.jpg
 app/static/uploads/*.jpeg
 app/static/uploads/*.png
-outputs/
-uploads/
+!app/static/outputs/.gitkeep
+!app/static/uploads/.gitkeep
 temp/
 tmp/
 

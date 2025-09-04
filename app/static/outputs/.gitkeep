@@ -1,0 +1,2 @@
+# This file ensures the outputs directory is preserved in git
+# Generated visualization images will be ignored by .gitignore but the directory structure remains
