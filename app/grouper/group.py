@@ -176,7 +176,7 @@ class ProductGrouper:
                     else:
                         avg_similarity = 1.0
                     for cluster_idx in cluster:
-                        original_det = group_items[cluster_idx]
+                        original_det = group_items[cluster_idx][1]  # Extract the detection dict from the tuple
                         refined_det = original_det.copy()
                         refined_det["group_id"] = group_name
                         refined_det["visual_similarity_score"] = float(avg_similarity)
