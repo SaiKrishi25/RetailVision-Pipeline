@@ -1,0 +1,22 @@
+
+# Core web framework
+flask==3.0.3
+gunicorn==22.0.0
+
+# Image processing
+pillow==10.4.0
+opencv-python==4.10.0.84
+numpy==2.1.1
+
+# Deep learning - DETR model + CLIP
+torch>=2.2.0
+torchvision>=0.17.0
+transformers>=4.30.0
+
+# CLIP for brand classification
+sentence-transformers>=2.2.0
+
+# Grouping/clustering
+scikit-learn==1.5.1
+
+# Visual similarity grouping only (no OCR)

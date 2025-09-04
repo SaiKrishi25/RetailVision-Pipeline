@@ -1,0 +1,199 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Product Detection & Grouping</title>
+    <style>
+      body { 
+        font-family: Arial, sans-serif; 
+        margin: 2rem; 
+        background: #f5f5f5;
+      }
+      .container { 
+        max-width: 1000px; 
+        margin: 0 auto; 
+        background: white; 
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      }
+      h1 { 
+        text-align: center; 
+        color: #333;
+        margin-bottom: 2rem;
+      }
+      .upload-section { 
+        text-align: center; 
+        margin-bottom: 2rem;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      input[type="file"] { 
+        margin: 1rem;
+        padding: 0.5rem;
+      }
+      button { 
+        background: #007cba; 
+        color: white; 
+        padding: 0.7rem 1.5rem; 
+        border: none; 
+        border-radius: 4px; 
+        cursor: pointer; 
+      }
+      button:hover { 
+        background: #005a87; 
+      }
+      button:disabled { 
+        background: #ccc; 
+        cursor: not-allowed; 
+      }
+      .results { 
+        margin-top: 2rem; 
+        display: none; 
+      }
+      .images { 
+        display: flex; 
+        gap: 2rem; 
+        margin-bottom: 2rem; 
+      }
+      .image-box { 
+        flex: 1;
+        text-align: center;
+      }
+      .image-box h3 {
+        margin-bottom: 1rem;
+        color: #555;
+      }
+      .image-box img { 
+        max-width: 100%; 
+        height: auto;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .json-output { 
+        background: #f8f8f8; 
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 1rem; 
+        overflow-x: auto;
+        font-family: monospace;
+        font-size: 0.9rem;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+      .loading { 
+        display: none; 
+        text-align: center; 
+        padding: 2rem; 
+      }
+      .loading.show { 
+        display: block; 
+      }
+      @media (max-width: 768px) {
+        .images { 
+          flex-direction: column; 
+        }
+        body {
+          margin: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Product Detection & Grouping</h1>
+      
+      <div class="upload-section">
+        <p>Upload a retail shelf image to detect and group products</p>
+        <form id="uploadForm">
+          <input type="file" id="imageInput" name="image" accept="image/*" required />
+          <button type="submit" id="submitBtn">Run Inference</button>
+        </form>
+      </div>
+
+      <div class="loading" id="loading">
+        <p>Processing image...</p>
+      </div>
+
+      <div class="results" id="results">
+        <div class="images" id="imageComparison">
+          <!-- Images will be populated here -->
+        </div>
+
+        <h3>JSON Response</h3>
+        <pre class="json-output" id="jsonResponse">Upload an image to see results...</pre>
+      </div>
+    </div>
+
+    <script>
+      const form = document.getElementById('uploadForm');
+      const loading = document.getElementById('loading');
+      const results = document.getElementById('results');
+      const jsonResponse = document.getElementById('jsonResponse');
+      const imageComparison = document.getElementById('imageComparison');
+      const submitBtn = document.getElementById('submitBtn');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const fileInput = document.getElementById('imageInput');
+        const file = fileInput.files[0];
+        
+        if (!file) {
+          alert('Please select an image file');
+          return;
+        }
+
+        // Show loading
+        loading.classList.add('show');
+        results.style.display = 'none';
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Processing...';
+
+        try {
+          const formData = new FormData();
+          formData.append('image', file);
+
+          const response = await fetch('/api/infer', {
+            method: 'POST',
+            body: formData
+          });
+
+          const data = await response.json();
+
+          // Hide loading, show results
+          loading.classList.remove('show');
+          results.style.display = 'block';
+
+          // Update JSON response
+          jsonResponse.textContent = JSON.stringify(data, null, 2);
+
+          // Show images side by side
+          if (data.original_image && data.visualization) {
+            imageComparison.innerHTML = `
+              <div class="image-box">
+                <h3>Original Image</h3>
+                <img src="${data.original_image}" alt="Original Image" />
+              </div>
+              <div class="image-box">
+                <h3>Detection Results</h3>
+                <img src="${data.visualization}" alt="Detection Results" />
+              </div>
+            `;
+          }
+
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Error processing image. Please try again.');
+          loading.classList.remove('show');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Run Inference';
+        }
+      });
+    </script>
+  </body>
+</html>
