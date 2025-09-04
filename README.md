@@ -38,10 +38,13 @@ DEPLOYMENT_DOCUMENTATION.md # Comprehensive deployment guide
 
 ## Quickstart (Local)
 
+### Git Clone
 ```bash
-# 0. Clone the repository
 git clone https://github.com/SaiKrishi25/RetailVision-Pipeline.git
 cd RetailVision-Pipeline
+```
+
+```bash
 
 # 1. Setup environment
 python -m venv .venv && source .venv/bin/activate  # or Windows: .venv\Scripts\activate
@@ -59,11 +62,6 @@ pip install -r requirements.txt
 **Subsequent runs**: Instant startup with cached models
 
 Upload a retail shelf image and inspect the enhanced JSON response with brand classification + color-coded visualization!
-
-### cURL (headless usage)
-```bash
-curl -X POST -F "image=@/path/to/shelf.jpg" http://localhost:8000/api/infer
-```
 
 ---
 
